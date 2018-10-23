@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book db</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+<div class="listArea">
+    <button id="btnGetList">Get List</button>
+    <ul id="booksList"></ul>
+</div>
+
+<div class="mainForm">
+    <label for="bookId">ID:</label>
+    <input id="bookId" name="id" type="text" disabled>
+
+    <label for="name">Name:</label>
+    <input id="name" name="name" type="text">
+
+    <label for="author">Author:</label>
+    <input id="author" name="author" type="text">
+
+    <label for="genre">Genre:</label>
+    <input id="genre" name="genre" type="text">
+
+    <label for="publication_date">Publication Date:</label>
+    <input id="publication_date" name="publication_date" type="text"
+           required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}">
+</div>
+
+<div class="controls">
+    <button id="btnAddBook">Add new</button>
+    <button id="btnEditBook">Edit</button>
+    <button id="btnDeleteBook">Delete</button>
+    <button id="btnOK">OK</button>
+</div>
+
+<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>

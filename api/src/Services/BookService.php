@@ -32,10 +32,10 @@ class BookService
         return $books;
     }
 
-    public function addBook($bookData, $bookId)
+    public function addBook($bookData)
     {
         $book = new Book(
-            $bookId,
+            null,
             $bookData['name'],
             $bookData['Author'],
             $bookData['Genre'],
@@ -59,6 +59,8 @@ class BookService
         );
 
         $this->bookRepository->editBook($book);
+
+        return $book;
     }
 
     public function deleteBook($bookId)

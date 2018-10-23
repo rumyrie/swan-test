@@ -22,17 +22,20 @@ class BookRepository
         $rows = $this->dbConnection
             ->createQueryBuilder()
             ->select('id', 'name', 'author, genre', 'publication_date')
-            ->from('Book')->execute();
+            ->from('Books')->execute();
 
         return $rows;
     }
 
     public function addBook(Book $book)
     {
-        $this->checkUniqueness(book);
+        $unique = $this->checkUniqueness($book);
+        if ($unique->rowCount() > 0)
+            throw new \Exception('A book with the given data already exists');
+
 
         $this->dbConnection->createQueryBuilder()
-            ->insert('Book')->values(
+            ->insert('Books')->values(
                 array(
                     'id' => '?',
                     'name' => '?',
@@ -54,7 +57,7 @@ class BookRepository
     {
         $unique = $this->dbConnection->createQueryBuilder()
             ->select('*')
-            ->from('Book')
+            ->from('Books')
             ->where('name = ?')
             ->andWhere('author = ?')
             ->andWhere('genre = ?')
@@ -63,18 +66,18 @@ class BookRepository
             ->setParameter(2, $book->getAuthor())
             ->setParameter(3, $book->getGenre())
             ->setParameter(4, $book->getPublicationDate())
-            ->execute()->rowCount();
-
-        if ($unique != 0)
-            throw new \Exception('A book with the given data already exists.');
+            ->execute();
+        return $unique;
     }
 
     public function editBook(Book $book)
     {
-        $this->checkUniqueness($book);
+        $unique = $this->checkUniqueness($book);
+        if ($unique['id'] != $book->getId())
+            throw new \Exception('A book with the given data already exists');
 
         $this->dbConnection->createQueryBuilder()
-            ->update('Book')
+            ->update('Books')
             ->where('id = ?')
             ->set('id', '?')
             ->set('name', '?')
@@ -92,7 +95,7 @@ class BookRepository
     public function deleteBook($id)
     {
         $this->dbConnection->createQueryBuilder()
-            ->delete('Book')
+            ->delete('Books')
             ->where('id = ?')
             ->setParameter(0, $id)
             ->execute();

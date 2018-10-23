@@ -1,0 +1,89 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 20px;
+}
+
+label {
+    display: block;
+    position: relative;
+    left: 5px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    top: 30px;
+    min-height: 770px;
+    min-width: 250px;
+    overflow-y: scroll;
+}
+
+input {
+    border: solid 1px #555555;
+    min-height: 30px;
+    outline: none;
+    text-align: center;
+    position: relative;
+    left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 250px;
+}
+
+button {
+    padding: 5px;
+    display: block;
+}
+
+.listArea {
+    position: absolute;
+    left: 10px;
+    top: 50px;
+    bottom: 50px;
+    width: 250px;
+    border: solid 1px #555555;
+}
+
+.mainForm {
+    position: absolute;
+    top: 50px;
+    bottom: 50px;
+    left: 270px;
+    width: 265px;
+    border: solid 1px #555555;
+}
+
+.controls {
+    position: absolute;
+    top: 50px;
+    bottom: 50px;
+    left: 550px;
+    width: 200px;
+}
+
+#btnAddBook, #btnDeleteBook, #btnEditBook, #btnOK {
+    position: absolute;
+    width: 200px;
+}
+
+#btnGetList {
+    width: 250px;
+}
+
+#btnAddBook {
+    top: 60px;
+}
+
+#btnEditBook {
+    top: 120px;
+}
+
+#btnDeleteBook {
+    top: 180px;
+}
+
+#btnOK {
+    top: 340px;
+}

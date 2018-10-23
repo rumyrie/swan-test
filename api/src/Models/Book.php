@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Meer
- * Date: 22.10.2018
- * Time: 18:10
- */
 
 namespace App\Models;
-
 
 class Book implements \JsonSerializable
 {

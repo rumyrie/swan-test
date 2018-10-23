@@ -2,51 +2,47 @@
 
 namespace App\Controllers;
 
-use App\Services\BookService;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Views\Twig as View;
+
+use App\Services\BookService;
 
 class BookController
 {
     private $bookService;
 
-    public function __construct(BookService $bookService)
+    public function __construct(BookService $bookService, View $view)
     {
         $this->bookService = $bookService;
+        $this->view = $view;
     }
 
-    public function inputValidation($data, $schema)
+    public function loadPage(Request $request, Response $response)
     {
-        $validator = new Validator();
-        try {
-            $validator->validate($data,
-                (object)['$ref' => 'file://' . realpath("src/Schemas/" . $schema)],
-                Constraint::CHECK_MODE_EXCEPTIONS);
-
-            return $validator->isValid();
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        return $this->view->render($response, 'books.html');
     }
 
-    public function listBooks(Request $request, Response $response, $args)
+    public function listBooks(Request $request, Response $response)
     {
         try {
             $books = $this->bookService->listBooks();
-            return $response->withJson($books);
+
+            return $response->withJson($books, 200);
 
         } catch (\Exception $e) {
             return $response->withJson($e->getMessage());
         }
     }
 
-    public function addBook(Request $request, Response $response, $args)
+    public function addBook(Request $request, Response $response)
     {
         try {
             $book = $request->getParsedBody();
             $book = $this->bookService->addBook($book);
 
-            return $response->withJson($book);
+            return $response->withJson($book, 200);
+
         } catch (\Exception $e) {
             return $response->withJson($e->getMessage());
         }
@@ -56,10 +52,9 @@ class BookController
     {
         try {
             $bookId = $args['id'];
-            $book = $request->getParsedBody();
-            $this->bookService->addBook($book, $bookId);
-
-            return $response->withJson($book);
+            $bookData = $request->getParsedBody();
+            $book = $this->bookService->editBook($bookData, $bookId);
+            return $response->withJson($book, 200);
 
         } catch (\Exception $e) {
             return $response->withJson($e->getMessage());
@@ -72,7 +67,7 @@ class BookController
             $bookId = $args['id'];
             $this->bookService->deleteBook($bookId);
 
-            return $response->withJson('success');
+            return $response->withStatus(200);
 
         } catch (\Exception $e) {
             return $response->withJson($e->getMessage());
