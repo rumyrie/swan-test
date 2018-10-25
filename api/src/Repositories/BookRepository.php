@@ -37,17 +37,15 @@ class BookRepository
         $this->dbConnection->createQueryBuilder()
             ->insert('Books')->values(
                 array(
-                    'id' => '?',
                     'name' => '?',
                     'author' => '?',
                     'genre' => '?',
                     'publication_date' => '?'
                 ))
-            ->setParameter(0, $book->getId())
-            ->setParameter(1, $book->getName())
-            ->setParameter(2, $book->getAuthor())
-            ->setParameter(3, $book->getGenre())
-            ->setParameter(4, $book->getPublicationDate())
+            ->setParameter(0, $book->getName())
+            ->setParameter(1, $book->getAuthor())
+            ->setParameter(2, $book->getGenre())
+            ->setParameter(3, $book->getPublicationDate())
             ->execute();
 
         return $this->dbConnection->lastInsertId();
@@ -62,10 +60,10 @@ class BookRepository
             ->andWhere('author = ?')
             ->andWhere('genre = ?')
             ->andWhere('publication_date = ?')
-            ->setParameter(1, $book->getName())
-            ->setParameter(2, $book->getAuthor())
-            ->setParameter(3, $book->getGenre())
-            ->setParameter(4, $book->getPublicationDate())
+            ->setParameter(0, $book->getName())
+            ->setParameter(1, $book->getAuthor())
+            ->setParameter(2, $book->getGenre())
+            ->setParameter(3, $book->getPublicationDate())
             ->execute();
         return $unique;
     }
@@ -73,23 +71,26 @@ class BookRepository
     public function editBook(Book $book)
     {
         $unique = $this->checkUniqueness($book);
-        if ($unique['id'] != $book->getId())
+        if ($unique->rowCount() > 1)
+            throw new \Exception('A book with the given data already exists');
+        if ($unique->rowCount() == 1 and $unique->fetchColumn(0) != $book->getId())
             throw new \Exception('A book with the given data already exists');
 
-        $this->dbConnection->createQueryBuilder()
-            ->update('Books')
-            ->where('id = ?')
-            ->set('id', '?')
-            ->set('name', '?')
-            ->set('author', '?')
-            ->set('genre', '?')
-            ->set('publication_date', '?')
-            ->setParameter(0, $book->getId())
-            ->setParameter(1, $book->getName())
-            ->setParameter(2, $book->getAuthor())
-            ->setParameter(3, $book->getGenre())
-            ->setParameter(4, $book->getPublicationDate())
-            ->execute();
+        $this->dbConnection->executeQuery(
+            'UPDATE Books
+                    SET `name` = ?,
+                    author = ?,
+                    genre = ?,
+                    publication_date = ?
+                    WHERE `id` = ?',
+            [
+                $book->getName(),
+                $book->getAuthor(),
+                $book->getGenre(),
+                $book->getPublicationDate(),
+                $book->getId()
+            ]
+        );
     }
 
     public function deleteBook($id)

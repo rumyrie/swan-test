@@ -27,11 +27,11 @@ class BookController
     {
         try {
             $books = $this->bookService->listBooks();
-
             return $response->withJson($books, 200);
 
+
         } catch (\Exception $e) {
-            return $response->withJson($e->getMessage());
+            return $response->withJson($e->getMessage(), 400);
         }
     }
 
@@ -44,7 +44,7 @@ class BookController
             return $response->withJson($book, 200);
 
         } catch (\Exception $e) {
-            return $response->withJson($e->getMessage());
+            return $response->withJson($e->getMessage(), 400);
         }
     }
 
@@ -57,7 +57,7 @@ class BookController
             return $response->withJson($book, 200);
 
         } catch (\Exception $e) {
-            return $response->withJson($e->getMessage());
+            return $response->withJson($e->getMessage(), 400);
         }
     }
 
@@ -70,7 +70,7 @@ class BookController
             return $response->withStatus(200);
 
         } catch (\Exception $e) {
-            return $response->withJson($e->getMessage());
+            return $response->withJson($e->getMessage(), 400);
         }
     }
 }

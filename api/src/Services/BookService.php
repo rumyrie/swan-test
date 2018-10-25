@@ -37,15 +37,15 @@ class BookService
         $book = new Book(
             null,
             $bookData['name'],
-            $bookData['Author'],
-            $bookData['Genre'],
-            $bookData['publicationDate']
+            $bookData['author'],
+            $bookData['genre'],
+            $bookData['publication_date']
         );
 
-       $id = $this->bookRepository->addBook($book);
-       $book->setId($id);
+        $id = $this->bookRepository->addBook($book);
+        $book->setId($id);
 
-       return $book;
+        return $book;
     }
 
     public function editBook($bookData, $bookId)
@@ -53,9 +53,9 @@ class BookService
         $book = new Book(
             $bookId,
             $bookData['name'],
-            $bookData['Author'],
-            $bookData['Genre'],
-            $bookData['publicationDate']
+            $bookData['author'],
+            $bookData['genre'],
+            $bookData['publication_date']
         );
 
         $this->bookRepository->editBook($book);

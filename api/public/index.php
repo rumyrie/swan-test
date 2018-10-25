@@ -11,4 +11,5 @@ $config = [
 $app = new \Slim\App($config);
 
 require __DIR__ . '/../src/app.php';
+
 $app->run();

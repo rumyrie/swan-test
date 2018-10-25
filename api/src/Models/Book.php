@@ -20,10 +20,10 @@ class Book implements \JsonSerializable
      */
     public function __construct($id, $name, $author, $genre, $publication_date)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->author = $author;
-        $this->genre = $genre;
+        $this->id = strtolower($id);
+        $this->name = strtolower($name);
+        $this->author = strtolower($author);
+        $this->genre = strtolower($genre);
         $this->publication_date = $publication_date;
     }
 

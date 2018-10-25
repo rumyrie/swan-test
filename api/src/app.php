@@ -11,14 +11,14 @@ use Slim\Views\TwigExtension;
 $container = $app->getContainer();
 
 $container['db'] = function () {
-  return DriverManager::getConnection([
-      'driver' => 'pdo_mysql',
-      'host' => 'localhost',
-      'dbname' => 'bookStorage',
-      'user' => 'root',
-      'password' => 'root',
-      'charset' => 'utf8',
-  ]);
+    return DriverManager::getConnection([
+        'driver' => 'pdo_mysql',
+        'host' => 'localhost',
+        'dbname' => 'bookStorage',
+        'user' => 'root',
+        'password' => 'root',
+        'charset' => 'utf8',
+    ]);
 };
 
 $container['view'] = function ($container) {
@@ -40,7 +40,7 @@ $container['book.service'] = function ($c) {
     return new BookService($c->get('book.repository'));
 };
 
-$container['book.repository'] = function($c) {
+$container['book.repository'] = function ($c) {
     /** @var ContainerInterface $c */
     return new BookRepository($c->get('db'));
 };

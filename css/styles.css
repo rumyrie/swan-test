@@ -20,6 +20,10 @@ ul {
     overflow-y: scroll;
 }
 
+li {
+    border: dotted 1px #555555
+}
+
 input {
     border: solid 1px #555555;
     min-height: 30px;
